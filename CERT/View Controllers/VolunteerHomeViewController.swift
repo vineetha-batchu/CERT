@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import StoreKit
 import FirebaseAuth
 import Firebase
 import FirebaseDatabase
@@ -19,6 +20,7 @@ class VolunteerHomeViewController: UIViewController {
     @IBOutlet weak var greetingLabel: UILabel!
     @IBOutlet weak var reportButtoOutlet: UIButton!
     @IBOutlet weak var volunteerImageView: UIImageView!
+    @IBOutlet weak var chatViewButtonOutlet: RoundButton!
     
     var firstName : String?
     var lastName : String?
@@ -60,29 +62,6 @@ class VolunteerHomeViewController: UIViewController {
         reportButtoOutlet.createFloatingActionButton()
     }
     
-    
-//    @IBAction func signOut(_ sender: Any) {
-//        let signOutAlertAction = UIAlertAction(title: "Sign Out", style: .destructive) { (action) in
-//            do{
-//                try Auth.auth().signOut()
-//                let logoutVC = LoginViewController()
-//                let logoutNVC = UINavigationController(rootViewController: logoutVC)
-//                self.present(logoutNVC, animated: true, completion: nil)
-//                let lg = self.storyboard?.instantiateViewController(withIdentifier: Constants.LoginStoryboard.isLoginController) as? LoginViewController
-//
-//                self.view.window?.rootViewController = lg
-//                self.view.window?.makeKeyAndVisible()
-//            } catch let err {
-//                //Service.showAlert
-//            }
-//        }
-        
-//        let lg = self.storyboard?.instantiateViewController(withIdentifier: Constants.LoginStoryboard.isLoginController) as? LoginViewController
-//
-//        self.view.window?.rootViewController = lg
-//        self.view.window?.makeKeyAndVisible()
-//    }
-    
     @objc func userLogOut(){
 //        let signOutAlertAction = UIAlertAction(title: "Sign Out", style: .destructive) { (action) in
 //            do{
@@ -100,6 +79,19 @@ class VolunteerHomeViewController: UIViewController {
 //        }
 //
     }
+    
+    @IBAction func ChatButtonClicked(_ sender: UIButton) {
+        guard let url = URL(string: "whatsapp://") else { return }
+        
+        if UIApplication.shared.canOpenURL(url){
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }else{
+            let vc = SKStoreProductViewController()
+            vc.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: NSNumber(value: 310633997)], completionBlock: nil)
+            present(vc, animated: true)
+        }
+    }
+    
     
     @IBAction func reportClicked(_ sender: UIButton) {
         
